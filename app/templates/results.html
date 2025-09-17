@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="header">
+    <h1 class="h1">Results</h1>
+  </div>
+  <div class="kv">
+    {% if original_name %}<div>File: <strong>{{ original_name }}</strong></div>{% endif %}
+    {% if jersey_number %}<div>Jersey #: <strong>{{ jersey_number }}</strong></div>{% endif %}
+    {% if position %}<div>Role: <strong>{{ position }}</strong></div>{% endif %}
+  </div>
+
+  {% if notes %}
+    <div class="panel">
+      <h4>Your coaching notes</h4>
+      <p style="white-space:pre-wrap">{{ notes }}</p>
+    </div>
+  {% endif %}
+
+  {% if video_url %}
+    <div class="panel">
+      <div class="video-wrap">
+        <video controls preload="metadata">
+          <source src="{{ video_url }}" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    </div>
+  {% endif %}
+
+  <div class="panel">
+    <h3 style="margin:0 0 8px">AI Feedback</h3>
+    <div class="helper">Per detected event (every ~2s). Add more notes and re-run to tune the advice.</div>
+    <div class="grid">
+      {% for item in feedback %}
+        <div class="card">
+          <h4>Event {{ loop.index }}</h4>
+          <p style="white-space:pre-wrap; margin:8px 0 0">{{ item }}</p>
+        </div>
+      {% endfor %}
+      {% if feedback|length == 0 %}
+        <div class="card"><p>No events detected—try a longer clip.</p></div>
+      {% endif %}
+    </div>
+  </div>
+
+  <div style="margin-top:12px">
+    <a class="btn" href="{{ url_for('main.upload') }}">Analyze another video</a>
+  </div>
+{% endblock %}

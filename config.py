@@ -1,0 +1,9 @@
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+UPLOAD_FOLDER = os.getenv("UPLOAD_FOLDER", "static/uploads")
+ALLOWED_EXTENSIONS = {'mp4', 'avi', 'mov'}
+
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")

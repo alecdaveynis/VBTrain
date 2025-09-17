@@ -1,0 +1,35 @@
+# --- Python ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.so
+.mypy_cache/
+.pytest_cache/
+*.egg-info/
+.venv/
+venv/
+ENV/
+env/
+.Python
+
+# --- Environment / secrets ---
+.env
+
+# --- Flask uploads (ignore video files) ---
+app/static/uploads/*
+!app/static/uploads/.gitkeep
+
+# --- IDE / Editor ---
+.vscode/
+.idea/
+*.swp
+
+# --- OS files ---
+.DS_Store
+Thumbs.db
+
+# --- Build / Logs ---
+dist/
+build/
+*.log

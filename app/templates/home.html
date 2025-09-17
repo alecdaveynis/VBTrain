@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="header">
+    <h1 class="h1">Level up your volleyball IQ</h1>
+  </div>
+  <p class="sub">Upload a clip, add a few notes (your jersey #, role, what you want feedback on), and get focused coaching advice.</p>
+
+  <div class="panel grid cols-2">
+    <div class="card">
+      <h4>How it works</h4>
+      <ol>
+        <li>Upload a short match or drill clip (MP4/MOV/AVI)</li>
+        <li>Add optional notes like “I’m #17, outside hitter, want serve-receive tips”</li>
+        <li>Get event-by-event feedback within seconds</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h4>Best results</h4>
+      <ul>
+        <li>Clips under ~60s</li>
+        <li>Stable camera view (side or endline)</li>
+        <li>Visible jersey numbers help a lot</li>
+      </ul>
+    </div>
+  </div>
+
+  <div style="margin-top:16px">
+    <a class="btn" href="{{ url_for('main.upload') }}">Upload a video</a>
+  </div>
+{% endblock %}

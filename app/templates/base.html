@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>VBTrain</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <nav class="nav">
+      <div class="brand">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 12h6l3-8 3 16 3-8h3" stroke="url(#g)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><defs><linearGradient id="g" x1="0" x2="24" y1="0" y2="18" gradientUnits="userSpaceOnUse"><stop stop-color="#7C9CFF"/><stop offset="1" stop-color="#8EF3FF"/></linearGradient></defs></svg>
+        <span>VBTrain <span class="badge">beta</span></span>
+      </div>
+      <div class="links">
+        <a href="{{ url_for('main.home') }}">Home</a>
+        <a href="{{ url_for('main.upload') }}">Upload & Analyze</a>
+        <a href="https://github.com/alecdaveynis" target="_blank" rel="noreferrer">GitHub</a>
+      </div>
+    </nav>
+
+    {% block content %}{% endblock %}
+
+    <div class="footer">© {{ 2025 }} VBTrain — quick volleyball video insights</div>
+  </div>
+</body>
+</html>
