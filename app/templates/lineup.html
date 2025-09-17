@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="header"><h1 class="h1">Optimal Lineup (Beta)</h1></div>
+
+  <div class="panel grid cols-2">
+    <div>
+      <h3 style="margin-top:0">Heuristic lineup</h3>
+      <div class="card"><h4>OH</h4>{% for p in simple.lineup.OH %}<div>• #{{p.jersey}} {{p.name}}</div>{% endfor %}</div>
+      <div class="card"><h4>MB</h4>{% for p in simple.lineup.MB %}<div>• #{{p.jersey}} {{p.name}}</div>{% endfor %}</div>
+      <div class="card"><h4>Setter</h4>{% for p in simple.lineup.S %}<div>• #{{p.jersey}} {{p.name}}</div>{% endfor %}</div>
+      <div class="card"><h4>Opposite</h4>{% for p in simple.lineup.OPP %}<div>• #{{p.jersey}} {{p.name}}</div>{% endfor %}</div>
+      <div class="card"><h4>Libero</h4>{% for p in simple.lineup.L %}<div>• #{{p.jersey}} {{p.name}}</div>{% endfor %}</div>
+      <div class="card"><h4>Bench</h4>{% for p in simple.lineup.bench %}<div>• #{{p.jersey}} {{p.name}} ({{p.role}})</div>{% endfor %}</div>
+    </div>
+
+    <div>
+      <h3 style="margin-top:0">Coach notes (GPT)</h3>
+      {% if llm_notes %}
+        <div class="card">
+          <p style="white-space:pre-wrap">{{ llm_notes }}</p>
+        </div>
+      {% else %}
+        <form method="POST">
+          <button class="btn" type="submit" name="action" value="generate">Generate Coach Notes</button>
+        </form>
+        <p class="helper">Click to analyze this lineup with GPT. (Uses API credits)</p>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

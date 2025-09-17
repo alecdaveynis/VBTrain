@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="header"><h1 class="h1">Practice Planner</h1></div>
+
+  <form class="panel" method="POST">
+    <h3 style="margin-top:0">Schedule</h3>
+    <div class="grid cols-2">
+      <div>
+        <label>Days</label>
+        <input name="days" value="{{ settings.days }}" placeholder="Mon, Wed, Fri">
+        <div class="helper">Comma-separated (e.g., Mon, Wed, Fri)</div>
+      </div>
+      <div>
+        <label>Start time</label>
+        <input name="start_time" value="{{ settings.start_time }}" placeholder="18:00">
+        <div class="helper">24h format (e.g., 18:00)</div>
+      </div>
+      <div>
+        <label>Duration (minutes)</label>
+        <input name="duration_min" type="number" min="30" step="5" value="{{ settings.duration_min }}">
+      </div>
+      <div>
+        <label>Location (optional)</label>
+        <input name="location" value="{{ settings.location }}" placeholder="Teagle Gym Court 2">
+      </div>
+    </div>
+
+    <hr class="sep">
+
+    <h3>Team struggle hotspots</h3>
+    {% if struggles %}
+      <div class="grid">
+        {% for k,v in struggles.items() %}
+          <div class="card">{{ k }} — <b>{{ v }}</b> players</div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="helper">No struggles logged yet. Add them on the <a href="{{ url_for('main.players') }}">Players</a> page.</p>
+    {% endif %}
+
+    <hr class="sep">
+
+    <div style="display:flex; gap:12px; flex-wrap:wrap">
+      <button class="btn" type="submit" name="action" value="save">Save Schedule</button>
+      <button class="btn" type="submit" name="action" value="generate">Generate Practice Plan</button>
+      <a class="btn secondary" href="{{ url_for('main.players') }}">Go to Players</a>
+    </div>
+  </form>
+
+  <div class="panel">
+    <h3 style="margin-top:0">Latest Plan</h3>
+    {% if settings.last_plan %}
+      <div class="card"><p style="white-space:pre-wrap">{{ settings.last_plan }}</p></div>
+    {% else %}
+      <p class="helper">No plan yet. Set your schedule above and click <b>Generate Practice Plan</b>.</p>
+    {% endif %}
+  </div>
+{% endblock %}

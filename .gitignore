@@ -12,13 +12,17 @@ venv/
 ENV/
 env/
 .Python
-    
+
 # --- Environment / secrets ---
 .env
 
-# --- Flask uploads (ignore video files) ---
+# --- Flask uploads (ignore actual videos) ---
 app/static/uploads/*
 !app/static/uploads/.gitkeep
+
+# --- Player/practice data (JSON) ---
+app/data/*.json
+!app/data/.gitkeep
 
 # --- IDE / Editor ---
 .vscode/

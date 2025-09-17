@@ -3,28 +3,82 @@
   <div class="header">
     <h1 class="h1">Level up your volleyball IQ</h1>
   </div>
-  <p class="sub">Upload a clip, add a few notes (your jersey #, role, what you want feedback on), and get focused coaching advice.</p>
+  <p class="sub">Upload a clip for instant event feedback, or build a full coaching workflow with Players → Lineup → Practice.</p>
 
   <div class="panel grid cols-2">
     <div class="card">
-      <h4>How it works</h4>
+      <h4>Quick start (video analysis)</h4>
       <ol>
-        <li>Upload a short match or drill clip (MP4/MOV/AVI)</li>
-        <li>Add optional notes like “I’m #17, outside hitter, want serve-receive tips”</li>
-        <li>Get event-by-event feedback within seconds</li>
+        <li>Go to <a href="{{ url_for('main.upload') }}">Upload & Analyze</a></li>
+        <li>Select a short clip (≤60s works best)</li>
+        <li>(Optional) Add jersey #, role, and focus notes</li>
+        <li>Submit → view timeline feedback + drills</li>
       </ol>
+      <p class="helper">Tip: Side or endline angle with visible numbers gives better feedback.</p>
     </div>
+
     <div class="card">
-      <h4>Best results</h4>
+      <h4>End-to-end coaching workflow</h4>
       <ul>
-        <li>Clips under ~60s</li>
-        <li>Stable camera view (side or endline)</li>
-        <li>Visible jersey numbers help a lot</li>
+        <li><strong>Players</strong> — Enter roster & baseline stats</li>
+        <li><strong>Lineup</strong> — See heuristic best-6 + GPT coach notes</li>
+        <li><strong>Practice</strong> — Save days/times; click <em>Generate</em> to get a 1-week plan focused on team struggles</li>
       </ul>
+      <p class="helper">Designed for fast iteration—no database required (stored in JSON).</p>
     </div>
   </div>
 
-  <div style="margin-top:16px">
+  <div class="panel">
+    <h3 style="margin:0 0 8px">Players → Lineup → Practice: how it fits together</h3>
+    <div class="grid cols-2">
+      <div class="card">
+        <h4>1) Players</h4>
+        <ul>
+          <li>Add each player’s <em>Name</em>, <em>Jersey</em>, and <em>Role</em> (OH/MB/S/OPP/L/DS)</li>
+          <li>Optional stats: Attack %, Pass rating (0–3), Block eff, Serve-in %, Dig %</li>
+          <li>Log <em>Struggles</em> as comma-separated tags (e.g., “serve receive, block timing”)</li>
+          <li>Notes: injuries, preferred tempo, tendencies</li>
+        </ul>
+        <a class="btn secondary" href="{{ url_for('main.players') }}">Open Players</a>
+      </div>
+
+      <div class="card">
+        <h4>2) Lineup</h4>
+        <ul>
+          <li>Heuristic creates a balanced 6: 2×OH, 2×MB, 1×S, 1×OPP (+ Libero)</li>
+          <li>GPT coach notes review balance (SR quality, block height, OOS options)</li>
+          <li>Includes quick rotation/sub suggestions</li>
+        </ul>
+        <a class="btn secondary" href="{{ url_for('main.lineup') }}">Open Lineup</a>
+      </div>
+
+      <div class="card">
+        <h4>3) Practice</h4>
+        <ul>
+          <li>Enter <em>Days</em>, <em>Start time</em>, <em>Duration</em>, <em>Location</em></li>
+          <li>Click <strong>Save Schedule</strong> to persist settings</li>
+          <li>Click <strong>Generate Practice Plan</strong> to create a 1-week plan</li>
+          <li>Plan targets the most frequent <em>Struggles</em> from Players</li>
+        </ul>
+        <a class="btn secondary" href="{{ url_for('main.practice') }}">Open Practice</a>
+      </div>
+
+      <div class="card">
+        <h4>Data & privacy</h4>
+        <ul>
+          <li>Uploads are local in <code>app/static/uploads/</code> (git-ignored)</li>
+          <li>Roster/practice settings saved to <code>app/data/*.json</code></li>
+          <li>Set <code>OPENAI_API_KEY</code> in <code>.env</code> (never committed)</li>
+        </ul>
+        <a class="btn secondary" href="{{ url_for('main.upload') }}">Analyze a video</a>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:16px; display:flex; gap:12px; flex-wrap:wrap">
     <a class="btn" href="{{ url_for('main.upload') }}">Upload a video</a>
+    <a class="btn secondary" href="{{ url_for('main.players') }}">Build roster</a>
+    <a class="btn secondary" href="{{ url_for('main.lineup') }}">See lineup</a>
+    <a class="btn secondary" href="{{ url_for('main.practice') }}">Plan practice</a>
   </div>
 {% endblock %}

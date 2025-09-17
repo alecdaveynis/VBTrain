@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="header"><h1 class="h1">Players & Stats</h1></div>
+  <div class="panel">
+    <form method="POST" class="grid cols-2">
+      <div>
+        <label>Name</label>
+        <input name="name" placeholder="Alex Smith" required>
+      </div>
+      <div>
+        <label>Jersey #</label>
+        <input name="jersey" type="number" placeholder="12" required>
+      </div>
+      <div>
+        <label>Role</label>
+        <select name="role">
+          <option>OH</option><option>MB</option><option>S</option><option>OPP</option><option>L</option><option>DS</option>
+        </select>
+      </div>
+      <div><label>Attack %</label><input name="attack_pct" type="number" step="0.01" placeholder="0.25"></div>
+      <div><label>Pass rating (0–3)</label><input name="pass_rating" type="number" step="0.01" placeholder="2.2"></div>
+      <div><label>Block eff</label><input name="block_eff" type="number" step="0.01" placeholder="0.18"></div>
+      <div><label>Serve in %</label><input name="serve_pct" type="number" step="0.01" placeholder="0.92"></div>
+      <div><label>Dig %</label><input name="dig_pct" type="number" step="0.01" placeholder="0.65"></div>
+      <div class="grid" style="grid-template-columns:1fr">
+        <label>Notes</label>
+        <textarea name="notes" placeholder="Injuries, preferred tempo, etc."></textarea>
+      </div>
+      <div class="grid" style="grid-template-columns:1fr">
+        <label>Struggles (comma-separated)</label>
+        <input name="struggles" placeholder="serve receive, block timing, transition">
+      </div>
+      <div>
+        <button class="btn" type="submit">Save Player</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="panel">
+    <h3 style="margin-top:0">Roster</h3>
+    <div class="grid">
+      {% for p in roster %}
+        <div class="card">
+          <h4>#{{ p.jersey }} — {{ p.name }} ({{ p.role }})</h4>
+          <div class="kv">
+            <div>Atk: <b>{{ p.attack_pct }}</b></div>
+            <div>Pass: <b>{{ p.pass_rating }}</b></div>
+            <div>Blk: <b>{{ p.block_eff }}</b></div>
+            <div>Srv: <b>{{ p.serve_pct }}</b></div>
+            <div>Dig: <b>{{ p.dig_pct }}</b></div>
+          </div>
+          {% if p.notes %}<p class="helper" style="margin-top:8px">{{ p.notes }}</p>{% endif %}
+          {% if p.struggles %}<p class="helper">Struggles: {{ p.struggles }}</p>{% endif %}
+        </div>
+      {% else %}
+        <div class="card">No players yet. Add someone above.</div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}
