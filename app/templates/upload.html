@@ -6,38 +6,61 @@
   <p class="sub">Add optional coaching notes so feedback is personalized.</p>
 
   <form class="panel" method="POST" enctype="multipart/form-data">
+  <div class="grid cols-2">
+    <div>
+      <label for="video">Video file</label>
+      <input type="file" id="video" name="video" accept=".mp4,.mov,.avi" required>
+      <div class="helper">Please uplaod your clip or film. For longer videos, set analysis mode to 'Full Match'</div>
+    </div>
+
+    <div class="grid">
+      <div>
+        <label for="mode">Analysis mode</label>
+        <select id="mode" name="mode">
+          <option value="clip" selected>Short clip — sample every N seconds</option>
+          <option value="match">Full match — segment by rally</option>
+        </select>
+      </div>
+
+      <div id="intervalWrap">
+        <label for="interval_sec">Sampling interval (seconds)</label>
+        <input type="number" id="interval_sec" name="interval_sec" min="1" step="1" value="2">
+        <div class="helper">Used in “Short clip” mode only</div>
+      </div>
+    </div>
+
     <div class="grid cols-2">
       <div>
-        <label for="video">Video file</label>
-        <input type="file" id="video" name="video" accept=".mp4,.mov,.avi" required>
-        <div class="helper">Tip: MP4 (H.264) works best</div>
+        <label for="jersey_number">Jersey # (optional)</label>
+        <input type="number" id="jersey_number" name="jersey_number" min="0" placeholder="e.g., 17">
       </div>
-
-      <div class="grid">
-        <div class="grid cols-2">
-          <div>
-            <label for="jersey_number">Jersey # (optional)</label>
-            <input type="number" id="jersey_number" name="jersey_number" min="0" placeholder="e.g., 17">
-          </div>
-          <div>
-            <label for="position">Position/role (optional)</label>
-            <input type="text" id="position" name="position" placeholder="Setter, OH, Libero, MB, etc.">
-          </div>
-        </div>
-
-        <div>
-          <label for="notes">What do you want tips on?</label>
-          <textarea id="notes" name="notes" placeholder="Serve receive footwork, block timing vs quicks, reading the setter, transition speed, etc."></textarea>
-          <div class="helper">These notes get sent to the coach model along with the timeline.</div>
-        </div>
+      <div>
+        <label for="position">Position/role (optional)</label>
+        <input type="text" id="position" name="position" placeholder="Setter, OH, Libero, MB, etc.">
       </div>
     </div>
 
-    <hr class="sep">
-
-    <div style="display:flex; gap:12px; flex-wrap:wrap">
-      <button class="btn" type="submit">Analyze Video</button>
-      <a class="btn secondary" href="{{ url_for('main.home') }}">Cancel</a>
+    <div class="grid" style="grid-template-columns:1fr">
+      <label for="notes">What do you want tips on?</label>
+      <textarea id="notes" name="notes" placeholder="Serve receive footwork, block timing vs quicks, reading the setter, transition speed, etc."></textarea>
     </div>
-  </form>
+  </div>
+
+  <hr class="sep">
+
+  <div style="display:flex; gap:12px; flex-wrap:wrap">
+    <button class="btn" type="submit">Analyze Video</button>
+    <a class="btn secondary" href="{{ url_for('main.home') }}">Cancel</a>
+  </div>
+</form>
+
+<script>
+// Tiny UX nicety: hide/show interval for clip vs match
+const mode = document.getElementById('mode');
+const wrap = document.getElementById('intervalWrap');
+mode.addEventListener('change', () => {
+  wrap.style.display = mode.value === 'clip' ? 'block' : 'none';
+});
+</script>
+
 {% endblock %}

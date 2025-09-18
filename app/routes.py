@@ -36,15 +36,22 @@ def upload():
             save_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
             file.save(save_path)
 
-            # Optional metadata / user coaching notes
+            # Read analysis settings
+            mode = (request.form.get('mode') or 'clip').strip()
+            try:
+                interval_sec = int(request.form.get('interval_sec') or 2)
+            except ValueError:
+                interval_sec = 2
+
+            # Optional metadata / coaching context
             jersey_number = request.form.get('jersey_number', '').strip()
             position = request.form.get('position', '').strip()
             notes = request.form.get('notes', '').strip()
 
-            # Extract simple "events" from video (dummy logic every ~2s)
-            events = process_video(save_path)
+            # Extract events (clip = fixed interval, match = rally segmentation)
+            events = process_video(save_path, mode=mode, interval_sec=interval_sec)
 
-            # Build a shared context string for the analyzer
+            # Build shared context string for the analyzer
             extra_context = []
             if jersey_number:
                 extra_context.append(f"Player jersey number: {jersey_number}")
@@ -68,12 +75,16 @@ def upload():
                 original_name=file.filename,
                 jersey_number=jersey_number,
                 position=position,
-                notes=notes
+                notes=notes,
+                analysis_mode=mode,
+                interval_sec=interval_sec
             )
 
         return "Invalid file type. Please upload a .mp4, .avi, or .mov file.", 400
 
+    # GET request: just show the upload page
     return render_template('upload.html')
+
 
 # -------- Players --------
 @main.route('/players', methods=['GET', 'POST'])
